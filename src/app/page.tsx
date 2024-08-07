@@ -25,9 +25,6 @@ export default function RandomUserPage() {
 
   const generateBtnOnClick = async () => {
     setIsLoading(true);
-
-  const generateBtnOnClick = async () => {
-    setIsLoading(true);
     
     try {
       const resp = await axios.get(
