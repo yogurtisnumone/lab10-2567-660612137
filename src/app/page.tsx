@@ -1,6 +1,8 @@
 "use client";
 
 import UserCard from "@/components/UserCard";
+import { UserCardProps } from "@/libs/types";
+import { cleanUser } from "@/libs/cleanUser";
 import axios from "axios";
 import { useState } from "react";
 
@@ -13,17 +15,21 @@ export default function RandomUserPage() {
 
   const generateBtnOnClick = async () => {
     setIsLoading(true);
-    const resp = await axios.get(
-      `https://randomuser.me/api/?results=${genAmount}`
-    );
-    setIsLoading(false);
-    const users = resp.data.results;
-
-    //Your code here
-    //Process result from api response with map function. Tips use function from /src/libs/cleanUser
-    const cleanedUsers = users.map(cleanUser);
-    //Then update state with function : setUsers(...)
-    setUsers(cleanedUsers)
+    
+    try {
+      const resp = await axios.get(
+        `https://randomuser.me/api/?results=${genAmount}`
+      );
+      const users = resp.data.results;
+      const cleanedUsers = users.map((user : any) => cleanUser(user));
+      setUsers(cleanedUsers);
+    } 
+    catch(error) {
+      console.error('Error fetching or processing data:', error);
+    } 
+    finally{
+      setIsLoading(false);
+    }
   };
 
   return (
