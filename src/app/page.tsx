@@ -23,24 +23,24 @@ export default function RandomUserPage() {
     localStorage.setItem("genAmount", genAmount.toString());
   }, [genAmount]);
 
-  const generateBtnOnClick = async () => {
+  async function generateBtnOnClick() {
     setIsLoading(true);
-    
+
     try {
       const resp = await axios.get(
         `https://randomuser.me/api/?results=${genAmount}`
       );
       const users = resp.data.results;
-      const cleanedUsers = users.map((user : any) => cleanUser(user));
+      const cleanedUsers = users.map((user: any) => cleanUser(user));
       setUsers(cleanedUsers);
-    } 
-    catch(error) {
+    }
+    catch (error) {
       console.error('Error fetching or processing data:', error);
-    } 
-    finally{
+    }
+    finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div style={{ maxWidth: "700px" }} className="mx-auto">
