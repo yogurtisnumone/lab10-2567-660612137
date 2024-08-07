@@ -10,7 +10,21 @@ export default function RandomUserPage() {
   // annotate type for users state variable
   const [users, setUsers] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [genAmount, setGenAmount] = useState<number>(typeof window !== "undefined" ? Number(localStorage.getItem("genAmount")) : 1);
+  const [genAmount, setGenAmount] = useState(1);
+
+  useEffect(() => {
+    const savedGenAmount = localStorage.getItem("genAmount");
+    if (savedGenAmount) {
+      setGenAmount(Number(savedGenAmount));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("genAmount", genAmount.toString());
+  }, [genAmount]);
+
+  const generateBtnOnClick = async () => {
+    setIsLoading(true);
 
   const generateBtnOnClick = async () => {
     setIsLoading(true);
